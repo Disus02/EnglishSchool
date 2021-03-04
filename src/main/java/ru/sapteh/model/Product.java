@@ -30,22 +30,21 @@ public class Product {
     private String mainImagePath;
     @NonNull
     private int isActive;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @NonNull
     private Manufacture manufacture;
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "product")
     private Set<ProductSale> productSales;
-    @Transient
-    private ImageView imagePath;
 
-    public ImageView getImagePath() throws IOException {
-        InputStream is= new FileInputStream("C:/Users/student/Desktop/Экзамен Стожков/09A_1.9_6/Сессия 1/products_s_import.zip/".concat(mainImagePath));
-        ImageView imageView=new ImageView(new Image(is));
-        is.close();
-        imageView.setOnMouseEntered(mouseEvent->{
-                imageView.setFitHeight(123);
-                imageView.setFitWidth(232);});
-
-        return imageView;
+    @Override
+    public String toString() {
+        return "Product{" +
+                "title='" + title + '\'' +
+                ", cost=" + cost +
+                ", description='" + description + '\'' +
+                ", mainImagePath='" + mainImagePath + '\'' +
+                ", isActive=" + isActive +
+                ", manufacture=" + manufacture +
+                '}';
     }
 }
