@@ -3,11 +3,20 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.sapteh.controller.ControllerMain">
-  <content>
-      <FlowPane fx:id="flowPane" layoutX="13.0" layoutY="14.0" prefHeight="500.0" prefWidth="760.0" AnchorPane.bottomAnchor="-189.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="-388.0" AnchorPane.topAnchor="14.0">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.sapteh.controller.ControllerMain">
+   <center>
+      <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <content>
+            <TilePane fx:id="tilePane" prefHeight="326.0" prefWidth="592.0" />
+         </content>
+      </ScrollPane>
+   </center>
+   <top>
+      <AnchorPane prefHeight="72.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <ComboBox fx:id="comboManufacture" prefWidth="150.0" />
-         </children></FlowPane>
-  </content>
-</ScrollPane>
+            <ComboBox fx:id="comboManufacture" layoutX="14.0" layoutY="24.0" prefWidth="150.0" />
+         </children>
+      </AnchorPane>
+   </top>
+</BorderPane>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.sapteh.controller.UpdateProductController">
+   <children>
+      <TextField fx:id="txtPath" layoutX="247.0" layoutY="108.0" />
+      <TextField fx:id="txtTitle" layoutX="247.0" layoutY="164.0" />
+      <TextField fx:id="txtCost" layoutX="247.0" layoutY="219.0" />
+      <Text layoutX="188.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Путь" />
+      <Text layoutX="190.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Название" />
+      <Text layoutX="171.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Стоимость" />
+      <TextField fx:id="txtStatus" layoutX="247.0" layoutY="269.0" />
+      <Text layoutX="205.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Статус" />
+   </children>
+</AnchorPane>

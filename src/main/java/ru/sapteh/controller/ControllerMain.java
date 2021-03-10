@@ -4,17 +4,22 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import ru.sapteh.model.Manufacture;
@@ -28,31 +33,41 @@ import java.io.IOException;
 public class ControllerMain {
     private ObservableList<Product> products= FXCollections.observableArrayList();
     private ObservableList<Manufacture> manufactures=FXCollections.observableArrayList();
+    public static String title;
+    public static String costs;
+    public static String statuses;
+    public static String imagePathes;
     @FXML
-    private FlowPane flowPane;
+    private TilePane tilePane;
     @FXML
-    private ComboBox<Manufacture> comboManufacture;
+    private ScrollPane scrollPane;
     @FXML
     public void initialize(){
-        flowPane.setAlignment(Pos.TOP_LEFT);
-        flowPane.setHgap(10);
-        flowPane.setVgap(20);
+        tilePane.setAlignment(Pos.TOP_LEFT);
+//        tilePane.setHgap(25);
+        tilePane.setVgap(20);
+        tilePane.setOrientation(Orientation.HORIZONTAL);
+        tilePane.setPrefColumns(5);
+        scrollPane.widthProperty().addListener(((observableValue, number, t1) ->
+                tilePane.setPrefWidth(t1.doubleValue())));
         getListProduct();
         for (Product product:products) {
-            System.out.println(product.getManufacture());
-           flowPane.getChildren().add(getNode(product.getMainImagePath(),product.getTitle(),
+           tilePane.getChildren().add(getNode(product.getMainImagePath(),product.getTitle(),
                    product.getCost(),String.valueOf(product.getIsActive())));
         }
     }
     private Node getNode(String imagePath,String nameBook,double cost,String status){
         AnchorPane pane=new AnchorPane();
-        pane.setPrefHeight(270);
+        pane.setPrefHeight(340);
+        pane.setPrefWidth(200);
         Image image=new Image(imagePath);
         ImageView imageView=new ImageView(image);
+        imageView.setFitHeight(300);
         imageView.setFitWidth(200);
-        imageView.setFitHeight(250);
         pane.getChildren().add(imageView);
         Label labelTitle=new Label();
+        Label labelCost=new Label();
+
         Label labelActive=new Label();
         if (status.equals("0")){
             labelActive.setText("не активен");
@@ -62,11 +77,51 @@ public class ControllerMain {
             labelActive.setText("Активен");
             labelActive.setTextFill(Color.GREEN);
         }
-        labelActive.setLayoutY(300);
-        labelTitle.setLayoutY(270);
-        labelTitle.setText(String.format("%s \n %.0f рублей",nameBook,cost));
+        labelActive.setLayoutY(370);
+        labelTitle.setLayoutY(300);
+        labelCost.setLayoutY(350);
+        labelTitle.setMaxWidth(200);
+        labelTitle.setWrapText(true);
+        labelCost.setText(String.format("%.0f рублей",cost));
+        labelTitle.setText(String.format("%s",nameBook));
         pane.getChildren().add(labelTitle);
+        pane.getChildren().add(labelCost);
         pane.getChildren().add(labelActive);
+//        imageView.setOnMouseEntered(event->{
+//            imageView.setFitWidth(300);
+//            imageView.setFitHeight(400);
+//        });
+//        imageView.setOnMouseExited(event->{imageView.setFitWidth(200);
+//        imageView.setFitHeight(300);
+//        });
+        pane.setOnMouseEntered(event->{
+            pane.setPrefWidth(250);
+            pane.setPrefHeight(390);
+            imageView.setFitWidth(250);
+        });
+
+        pane.setOnMouseExited(event->{
+            pane.setPrefWidth(200);
+            pane.setPrefHeight(340);
+            imageView.setFitWidth(200);
+        });
+        pane.setOnMouseClicked(event->{
+            title=labelTitle.getText();
+            statuses=labelActive.getText();
+            imagePathes=imageView.getImage().getUrl();
+            costs=labelCost.getText();
+                    Stage stage=new Stage();
+                    try {
+                        Parent parent= FXMLLoader.load(getClass().getResource("/view/updateProduct.fxml"));
+                        stage.setTitle("Лох");
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setScene(new Scene(parent));
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                );
         return pane;
     }
     private void getListProduct(){
@@ -74,38 +129,6 @@ public class ControllerMain {
         ProductService productService=new ProductService(factory);
         products.addAll(productService.readByAll());
     }
-    private void getManufacture(){
-        SessionFactory factory=new Configuration().configure().buildSessionFactory();
-        ManufactureService manufactureService=new ManufactureService(factory);
-        manufactures.addAll(manufactureService.readByAll());
-        comboManufacture.setItems(manufactures);
-    }
-    private void sortManufacture(){
-        getManufacture();
-        comboManufacture.setOnAction(event -> {
-            ObservableList<Product> productList=FXCollections.observableArrayList();
-            for (Product product:products) {
-                System.out.println(product.getManufacture());
-//                if (comboManufacture.getValue().equals(product.getManufacture())) {
-//                    productList.addAll(product);
-//                    products.clear();
-//                    System.out.println(productList);
-//                    for (Product product1 : productList) {
-//                        flowPane.getChildren().add(getNode(product1.getMainImagePath(), product1.getTitle(), product1.getCost(), String.valueOf(product1.getIsActive())));
-//                    }
-//                }
-            }
-        });
-//        ObservableList<Product> productList=FXCollections.observableArrayList();
-//        for (Product product:products) {
-//            if (comboManufacture.getValue().equals(product.getManufacture())){
-//                productList.addAll(product);
-//                System.out.println(productList);
-//                for (Product product1:productList) {
-//                    flowPane.getChildren().add(getNode(product1.getMainImagePath(),product1.getTitle(),product1.getCost(),String.valueOf(product1.getIsActive())));
-//                }
-//            }
-//        }
-    }
+
 }
 
