@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#click" orientation="VERTICAL" prefHeight="285.0" prefWidth="220.0"  vgap="3.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.sapteh.controller.TileController">
+   <children>
+      <ImageView fx:id="imageView" fitHeight="201.0" fitWidth="174.0" opacity="0.84" pickOnBounds="true" preserveRatio="true">
+         <FlowPane.margin>
+            <Insets top="10.0" />
+         </FlowPane.margin>
+         <effect>
+            <DropShadow />
+         </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ImageView>
+      <Label id="label" fx:id="labelTitle" text="Label" textAlignment="CENTER" textFill="#393838">
+         <padding>
+            <Insets top="3.0" />
+         </padding>
+         <FlowPane.margin>
+            <Insets />
+         </FlowPane.margin>
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font></Label>
+      <Label fx:id="labelCost" text="Label">
+         <font>
+            <Font name="Bell MT Bold" size="15.0" />
+         </font></Label>
+      <Label fx:id="labelIsActive" text="Label" textFill="#363333">
+         <font>
+            <Font name="Cambria" size="13.0" />
+         </font></Label>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</FlowPane>

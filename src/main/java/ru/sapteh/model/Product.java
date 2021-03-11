@@ -31,20 +31,20 @@ public class Product {
     @NonNull
     private int isActive;
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "ManufacturerID")
     @NonNull
     private Manufacture manufacture;
+
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "product")
     private Set<ProductSale> productSales;
 
     @Override
     public String toString() {
-        return "Product{" +
-                "title='" + title + '\'' +
+        return "title='" + title + '\'' +
                 ", cost=" + cost +
                 ", description='" + description + '\'' +
                 ", mainImagePath='" + mainImagePath + '\'' +
                 ", isActive=" + isActive +
-                ", manufacture=" + manufacture +
-                '}';
+                ", manufacture=" + manufacture;
     }
 }

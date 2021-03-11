@@ -1,26 +1,45 @@
 package ru.sapteh.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import ru.sapteh.model.Product;
 
 public class UpdateProductController {
     @FXML
-    private TextField txtPath;
+    private ImageView imageProduct;
 
     @FXML
-    private TextField txtTitle;
+    private Label labelID;
 
     @FXML
-    private TextField txtCost;
+    private Label labelTitle;
 
     @FXML
-    private TextField txtStatus;
+    private Label labelCost;
 
     @FXML
-    public void initialize(){
-        txtTitle.setText(ControllerMain.title);
-        txtPath.setText(ControllerMain.imagePathes);
-        txtCost.setText(ControllerMain.costs);
-        txtStatus.setText(ControllerMain.statuses);
+    private Label labelDescription;
+
+    @FXML
+    private Label labelIsActive;
+
+    @FXML
+    private Label labelManufacture;
+
+    public void setData(Product product){
+        imageProduct.setImage(new Image(product.getMainImagePath()));
+        labelID.setText(String.format("%d",product.getId()));
+        labelTitle.setText(product.getTitle());
+        labelDescription.setText(product.getDescription());
+        labelCost.setText(String.format("%.0f",product.getCost()));
+        labelIsActive.setText(isActive(product.getIsActive()));
+        labelManufacture.setText(product.getManufacture().getName());
+
+    }
+    private String isActive(int active){
+        return active==0?"Не активен":"Активен";
     }
 }
