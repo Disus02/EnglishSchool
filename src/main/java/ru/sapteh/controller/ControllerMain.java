@@ -64,8 +64,23 @@ public class ControllerMain {
                 stage.show();
             }
         };
+        initializeData(products);
+        search();
 
 
+//        for (Product product:products) {
+//            FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/view/tile.fxml"));
+//            pane=fxmlLoader.load();
+//            TileController tileController=fxmlLoader.getController();
+//            tileController.setData(product,myListener);
+//            tilePane.getChildren().add(pane);
+//            if (product.getIsActive()==0){
+//                pane.setStyle("-fx-background-color: grey");
+//            }
+//        }
+    }
+    private void initializeData(ObservableList<Product> products) throws IOException {
+        tilePane.getChildren().clear();
         for (Product product:products) {
             FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/view/tile.fxml"));
             pane=fxmlLoader.load();
@@ -89,6 +104,19 @@ public class ControllerMain {
         comboManufacture.setItems(manufactures);
     }
     private void search(){
+        ObservableList<Product> list=FXCollections.observableArrayList();
+        txtSearch.setOnKeyReleased(key->{
+            for (Product product:products){
+                if (product.getTitle().toLowerCase().contains(txtSearch.getText().toLowerCase())){
+                    list.add(product);
+                }
+                try {
+                    initializeData(list);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
