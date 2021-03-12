@@ -29,8 +29,8 @@ import ru.sapteh.service.ProductService;
 import java.io.IOException;
 
 public class ControllerMain {
-    private ObservableList<Product> products= FXCollections.observableArrayList();
-    private ObservableList<Manufacture> manufactures=FXCollections.observableArrayList();
+    private final ObservableList<Product> products= FXCollections.observableArrayList();
+    private final ObservableList<Manufacture> manufactures=FXCollections.observableArrayList();
     @FXML
     private TilePane tilePane;
     @FXML
@@ -66,6 +66,8 @@ public class ControllerMain {
         };
         initializeData(products);
         search();
+        sortManufacture();
+
 
 
 //        for (Product product:products) {
@@ -104,20 +106,35 @@ public class ControllerMain {
         comboManufacture.setItems(manufactures);
     }
     private void search(){
-        ObservableList<Product> list=FXCollections.observableArrayList();
         txtSearch.setOnKeyReleased(key->{
+            ObservableList<Product> list=FXCollections.observableArrayList();
             for (Product product:products){
                 if (product.getTitle().toLowerCase().contains(txtSearch.getText().toLowerCase())){
                     list.add(product);
                 }
-                try {
-                    initializeData(list);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            }
+            try {
+                initializeData(list);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
 
+    }
+    private void sortManufacture(){
+        comboManufacture.valueProperty().addListener((obj,oldValue,newValue)->{
+            ObservableList<Product> sort=FXCollections.observableArrayList();
+            for (Product product:products){
+                if (newValue.equals(product.getManufacture())){
+                    sort.add(product);
+                }
+            }
+            try {
+                initializeData(sort);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 }
