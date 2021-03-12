@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -18,6 +19,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import lombok.NonNull;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import ru.sapteh.dao.MyListener;
@@ -39,13 +41,17 @@ public class ControllerMain {
     private ComboBox<Manufacture> comboManufacture;
     @FXML
     private TextField txtSearch;
-
+    @FXML
+    private Button openCreateUser;
     FlowPane pane;
 
     private MyListener myListener;
 
     @FXML
     public void initialize() throws IOException {
+        if (LoginController.role.equals("user")){
+            openCreateUser.setVisible(false);
+        }
         getListProduct();
         getManufacture();
 
@@ -64,22 +70,10 @@ public class ControllerMain {
                 stage.show();
             }
         };
+        openCreateUser();
         initializeData(products);
         search();
         sortManufacture();
-
-
-
-//        for (Product product:products) {
-//            FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/view/tile.fxml"));
-//            pane=fxmlLoader.load();
-//            TileController tileController=fxmlLoader.getController();
-//            tileController.setData(product,myListener);
-//            tilePane.getChildren().add(pane);
-//            if (product.getIsActive()==0){
-//                pane.setStyle("-fx-background-color: grey");
-//            }
-//        }
     }
     private void initializeData(ObservableList<Product> products) throws IOException {
         tilePane.getChildren().clear();
@@ -131,6 +125,20 @@ public class ControllerMain {
             }
             try {
                 initializeData(sort);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+    private void openCreateUser(){
+        openCreateUser.setOnAction(event -> {
+            openCreateUser.getScene().getWindow().hide();
+            try {
+                Parent parent=FXMLLoader.load(getClass().getResource("/view/createUser.fxml"));
+                Stage stage=new Stage();
+                stage.setTitle("Регистрация пользователя");
+                stage.setScene(new Scene(parent));
+                stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -15,5 +15,6 @@
         <mapping class="ru.sapteh.model.Manufacture"/>
         <mapping class="ru.sapteh.model.Product"/>
         <mapping class="ru.sapteh.model.ProductSale"/>
+        <mapping class="ru.sapteh.model.Users"/>
     </session-factory>
 </hibernate-configuration>

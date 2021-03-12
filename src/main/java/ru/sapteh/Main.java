@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     public void start(Stage stage) throws Exception {
-        Parent parent=FXMLLoader.load(getClass().getResource("/view/main.fxml"));
+        Parent parent=FXMLLoader.load(getClass().getResource("/view/login.fxml"));
         stage.setTitle("Товары английской школы");
         stage.setScene(new Scene(parent));
         stage.show();
